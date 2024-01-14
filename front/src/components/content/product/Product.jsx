@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 const Product = () => {
     const [fetchData, setFetchData] = useState();
-    const [currentPage, setCurrentPage] = useState();
     const [order, setOrder] = useState('id');
 
     const handleOrderPrice = () => {
@@ -18,11 +17,9 @@ const Product = () => {
     }
 
     useEffect(() => {
-        console.log(order)
         let page = "";
 
         for (let i = window.location.href.length - 1; i > 0; i--){
-      
             if (window.location.href[i] === "/"){
                 for (let j = i + 1; j < window.location.href.length; j++){
                     page += window.location.href[j]
@@ -31,8 +28,6 @@ const Product = () => {
                 break;
             }
         }
-
-        setCurrentPage(window.location.href[page])
 
         let res;
 
@@ -44,10 +39,6 @@ const Product = () => {
                     }
                   }
             )
-            console.log("RES DATA", res.data)
-            res.data.forEach(element => {
-                console.log(element.price)
-            });
             setFetchData(res.data)
         }
 
@@ -58,9 +49,9 @@ const Product = () => {
     <div>
         <button onClick={handleOrderPrice}>{order}</button>
         {fetchData?.map((e) => (
-            <div className='card-container'>
+            <div key={e.id} className='card-container'>
             <Link to={"/guitar/"+e.id}>
-                <img className='card-image' src={e.lowresolutionimageurl}/>
+                <img className='card-image' src={e.lowresolutionimageurl} alt='placeholder'/>
             </Link>
             
         </div>

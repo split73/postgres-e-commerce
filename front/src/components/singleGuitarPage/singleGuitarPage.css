@@ -1,0 +1,14 @@
+.main-image-figure {
+    width: 600px;
+    background-repeat: no-repeat;
+  }
+  
+.main-image-figure:hover .main-image {
+    opacity: 0;
+  }
+  
+.main-image {
+    display: block;
+    width: 100%;
+    pointer-events: none;
+  }
