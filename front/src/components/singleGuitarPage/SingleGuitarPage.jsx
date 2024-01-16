@@ -6,7 +6,9 @@ import { Button } from 'react-bootstrap';
 const SingleGuitarPage = () => {
   const [fetchData, setFetchData] = useState({});
   const [imageToDisplay, setImageToDisplay] = useState("placeHolder");
-  const [imageStyle, setImageStyle] = useState({backgroundImage: `url(${imageToDisplay})`,backgroundPosition: '0% 0%'})
+  const [imageStyle, setImageStyle] = useState({backgroundImage: `url(${imageToDisplay})`,backgroundPosition: '0% 0%'});
+  const [overview, setOverview] = useState("PLACEHOLDER");
+  const [specification, setSpecification] = useState("PLACEHOLDER");
   
   const handleZoomOnHover = (e) => {
     const {left, top, width, height} = e.target.getBoundingClientRect();
@@ -38,7 +40,21 @@ const SingleGuitarPage = () => {
          `http://localhost:8080/api/get-single-product/${page}`
      )
 
+
+    let tmpSpecefication = [];
+
+      for (let i = 0; i < res.data[0].specification.length; i++){
+        tmpSpecefication.push(JSON.parse(res.data[0].specification[i]))
+      }
+      console.log(tmpSpecefication)
+    setSpecification(tmpSpecefication)
+    
+
     setFetchData(res.data[0])
+
+    setOverview(JSON.parse(res.data[0].overview).overviewBody)
+
+    
 
     if(res.data[0].fullresolutionimageurl){
       setImageToDisplay(res.data[0].fullresolutionimageurl)
@@ -63,14 +79,24 @@ const SingleGuitarPage = () => {
         <h1 className='title'>{fetchData[0]?.name}</h1>
         <h2 className='price'>{fetchData[0]?.price}</h2>
       </div>
-      <Button onClick={handleLogFetch} style={{width: 100}}>LOG</Button>
+      
       <div className='wrapper-overview-specs'>
         <h1 className='select-overview-specs'>
+        <Button onClick={handleLogFetch} style={{width: 100}}>LOG</Button>
           <Button>overview</Button>
           <Button>specification</Button>
         </h1>
         <p className='overview-specs'>
-          {fetchData[0]?.overview}
+          {overview}
+          <ul>
+            {specification.map((e) => (
+              <li>
+                <h1>{e.keySpecification}</h1> 
+                <h1>{e.valueSpecification}</h1>
+              </li>
+            ))}
+          </ul>
+          
         </p>
       </div>
     </div>
