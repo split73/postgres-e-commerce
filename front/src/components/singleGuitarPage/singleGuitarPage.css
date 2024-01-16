@@ -1,14 +1,26 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: auto 600px 600px auto;
+}
+
 .main-image-figure {
-    width: 600px;
-    background-repeat: no-repeat;
-  }
+  width: 600px;
+  background-repeat: no-repeat;
+  border: solid;
+  grid-column-start: 2;
+}
   
 .main-image-figure:hover .main-image {
-    opacity: 0;
-  }
+  opacity: 0;
+}
   
 .main-image {
-    display: block;
-    width: 100%;
-    pointer-events: none;
-  }
+  display: block;
+  width: 100%;
+  pointer-events: none;
+}
+
+.main-info {
+  border: solid;
+  grid-column-start: 3;
+}
