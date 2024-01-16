@@ -11,13 +11,12 @@ const SingleGuitarPage = () => {
     const {left, top, width, height} = e.target.getBoundingClientRect();
     const x = (e.pageX - left) / width * 100;
     const y = (e.pageY - top) / height * 100;
-    console.log(x, y)
     setImageStyle({ ...imageStyle, backgroundPosition: `${x}% ${y}%`})
   }
 
   useEffect(() => {
     let page = "";
-
+    
         for (let i = window.location.href.length - 1; i > 0; i--){
             if (window.location.href[i] === "/"){
                 for (let j = i + 1; j < window.location.href.length; j++){
@@ -34,6 +33,8 @@ const SingleGuitarPage = () => {
          `http://localhost:8080/api/get-single-product/${page}`
      )
 
+    setFetchData(res.data[0])
+        console.log(res)
     if(res.data[0].fullresolutionimageurl){
       setImageToDisplay(res.data[0].fullresolutionimageurl)
       setImageStyle({backgroundImage: `url(${res.data[0].fullresolutionimageurl})`,backgroundPosition: '0% 0%'})
@@ -53,6 +54,9 @@ const SingleGuitarPage = () => {
       <figure className='main-image-figure' onMouseMove={handleZoomOnHover} style={imageStyle}>
         <img className='main-image' src={imageToDisplay} />
       </figure>
+      <div className='main-info'>
+        <h1 className='title'>{}</h1>
+      </div>
     </div>
   )
 }

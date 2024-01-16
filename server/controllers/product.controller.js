@@ -28,10 +28,12 @@ class ProductController {
                 let matches = singleElementJsonFile.price.match(/(\d+)/g);
                 return matches
             }
-    
-            
 
-            let stringPriceToInteger = stingToNumber().join("");
+            if (!singleElementJsonFile.specs){
+                singleElementJsonFile.specs = [{specsBody: "no data"}]
+            }
+    
+            let stringPriceToInteger = Number(stingToNumber().join(""));
     
             function getRandomInt(min, max) {
                 min = Math.ceil(min);
