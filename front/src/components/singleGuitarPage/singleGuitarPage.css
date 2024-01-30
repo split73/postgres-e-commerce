@@ -6,7 +6,8 @@
 .main-image-figure {
   width: 600px;
   background-repeat: no-repeat;
-  border: solid;
+  border-style: solid;
+  border-width: 2px 0px;
   grid-column-start: 2;
 }
   
@@ -21,7 +22,9 @@
 }
 
 .main-info {
-  border: solid;
+  text-align: center;
+  border-style: solid;
+  border-width: 0px 0px 0px 2px;
   grid-column-start: 3;
 }
 

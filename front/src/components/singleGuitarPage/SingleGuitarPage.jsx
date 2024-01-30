@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import "./singleGuitarPage.css"
 import { Button } from 'react-bootstrap';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const SingleGuitarPage = () => {
   const [fetchData, setFetchData] = useState({});
@@ -103,8 +105,8 @@ const SingleGuitarPage = () => {
         <img className='main-image' src={imageToDisplay} />
       </figure>
       <div className='main-info'>
-        <h1 className='title'>{fetchData[0]?.name}</h1>
-        <h2 className='price'>{fetchData[0]?.price}</h2>
+        <h1 className='title'>{fetchData[0]?.name || <Skeleton/>}</h1>
+        <h2 className='price'>{fetchData[0]?.price || <Skeleton/>}</h2>
       </div>
       
       <div className='wrapper-overview-specs'>

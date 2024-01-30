@@ -40,7 +40,9 @@ const Product = () => {
                   }
             )
             setFetchData(res.data)
+            console.log(res)
         }
+        
 
         fetch();
     }, [order])
