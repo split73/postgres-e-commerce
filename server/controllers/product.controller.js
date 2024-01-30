@@ -65,7 +65,7 @@ class ProductController {
         console.log(req.params, req.query.order)
         const page = req.params.p;
         const sortOrder = req.query.order
-        const productAmount = 10;
+        const productAmount = 20;
         const getProductStartingFrom = page * productAmount - productAmount;
         console.log(getProductStartingFrom, productAmount)
         const query = `SELECT * FROM product ORDER BY ${sortOrder} OFFSET ${getProductStartingFrom} ROWS FETCH FIRST ${productAmount} ROW ONLY`

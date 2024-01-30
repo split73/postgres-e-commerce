@@ -1,0 +1,6 @@
+#product {
+    grid-area: main;
+    margin-right: 20%;
+    display: flex;
+    flex-wrap: wrap;
+}

@@ -1,6 +1,7 @@
 #navbar {
+    position: sticky;
+    top: 0;
     width: 100%;
     height: 100px;
     background-color: beige;
-    grid-area: navBar;
 }

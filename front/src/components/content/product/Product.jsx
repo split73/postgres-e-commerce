@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import "./Product.css"
 const Product = () => {
     const [fetchData, setFetchData] = useState();
     const [order, setOrder] = useState('id');
@@ -48,8 +48,8 @@ const Product = () => {
     }, [order])
 
   return (
-    <div>
-        <button onClick={handleOrderPrice}>{order}</button>
+    <div id='product'>
+        {/* <button onClick={handleOrderPrice}>{order}</button> */}
         {fetchData?.map((e) => (
             <div key={e.id} className='card-container'>
             <Link to={"/guitar/"+e.id}>
@@ -58,8 +58,6 @@ const Product = () => {
             
         </div>
         ))}
-        
-    Product
     </div>
   )
 }

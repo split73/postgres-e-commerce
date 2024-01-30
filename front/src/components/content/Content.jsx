@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react'
 import Product from './product/Product'
 import "./Content.css"
+import Filters from './filters/Filters'
 const Content = () => {
     useEffect(() => {
 
     }, [])
   return (
     <div id='content'>
-        <Product></Product>
-    Content
+      <Filters></Filters>
+      <Product></Product>
     </div>
   )
 }

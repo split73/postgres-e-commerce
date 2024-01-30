@@ -1,6 +1,5 @@
 #content {
     display: grid;
     grid-template-areas:
-    'navBar'
-    'filter filter main main';
+    'filter main main main';
 }

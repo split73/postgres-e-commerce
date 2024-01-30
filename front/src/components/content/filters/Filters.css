@@ -1,0 +1,7 @@
+#filters {
+    background-color: blue;
+    width: 100px;
+    height: 200px;
+    grid-area: filter;
+    margin-left: 10%;
+}
