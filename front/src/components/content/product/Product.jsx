@@ -59,7 +59,7 @@ const Product = () => {
     }, [order])
 
   return (
-    <div id='product' class="container" style={{backgroundColor: "#DADDE2", width: "53rem"}}>
+    <div id='product' class="container" style={{backgroundColor: "#DADDE2"}}>
         {/* <button onClick={handleOrderPrice}>{order}</button> */}
         {fetchData?.map((e) => (
           
@@ -68,9 +68,17 @@ const Product = () => {
 
 
           <div class="col">
-          <div class="card rounded-4 border-0 shadow p-3 mb-5 bg-white rounded " style={{width:"15rem", margin: "1rem", height: "30rem"}}>
-            <Link to={"/guitar/"+e.id}><img class="card-img-top border-bottom " src={e.lowresolutionimageurl} alt="Card image"/></Link>
-            <div class="card-body ">
+
+          <div className='card-container' class="card rounded-4 border-0 shadow p-3 mb-5 bg-white rounded " style={{width:"15rem", margin: "1rem", height: "30rem"}}>
+            <Link to={"/guitar/"+e.id}>
+              <div className='card-image'>
+                <img class="card-img-top border-bottom " src={e.lowresolutionimageurl} alt="Card image"/>
+                <div class="image-overlay">
+                </div>
+              </div>
+            </Link>
+
+            <div class="card-body">
               <h4 class="card-title" style={{ height: "7rem", overflow: "hidden"}}>{e.name}</h4>
               <a href={"/guitar/"+e.id} class="btn btn-primary rounded-3">get</a>
               <span class="float-end">${e.price / 100}</span>

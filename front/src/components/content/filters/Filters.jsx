@@ -6,9 +6,9 @@ const category = ["brand", "price", "stock"]
 const Filters = () => {
   return (
     <div id='filters'>
-        <div className='individual-filter'>
+        <div class="border-top border-bottom border-secondary border-2">
             <span>
-                category
+                filter
             </span>
         </div>
     </div>

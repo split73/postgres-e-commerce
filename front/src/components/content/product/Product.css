@@ -1,6 +1,27 @@
 #product {
-    grid-area: main;
-    margin-right: 20%;
+    float: right;
     display: flex;
     flex-wrap: wrap;
+    width: 75%;
+}
+
+.card-image {
+    position: relative;
+  }
+  
+.image-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background: rgba(255, 255, 255, 0.5);
+}
+  
+.card-image:hover .image-overlay {
+    opacity: 1;
 }

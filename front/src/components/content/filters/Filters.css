@@ -1,8 +1,4 @@
 #filters {
-    grid-area: filter;
-    margin:  100px 0px 0px 100px;
-}
-
-.individual-filter {
-    border: solid;
+    float: left;
+    width: 25%;
 }
