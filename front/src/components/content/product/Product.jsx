@@ -59,28 +59,26 @@ const Product = () => {
     }, [order])
 
   return (
-    <div id='product'>
+    <div id='product' class="container" style={{backgroundColor: "#DADDE2", width: "53rem"}}>
         {/* <button onClick={handleOrderPrice}>{order}</button> */}
         {fetchData?.map((e) => (
           
         
-        <div key={e.id} className='card-container'>
+        <div class="row row-cols-3 g-3" key={e.id} >
 
-        <Card style={{ width: '300px', height: "500px" }}>
-      <Card.Img style={{ width: '300px', height: "375"}} variant="top" src={e.lowresolutionimageurl} />
-      <Card.Body>
-        <Card.Title>{e.name}</Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-      </Card.Body>
-      <Card.Body>
-        <Card.Link href={"/guitar/"+e.id}>Card Link</Card.Link>
-        <Card.Link href="#">Another Link</Card.Link>
-      </Card.Body>
-    </Card>
+
+          <div class="col">
+          <div class="card rounded-4 border-0 shadow p-3 mb-5 bg-white rounded " style={{width:"15rem", margin: "1rem", height: "30rem"}}>
+            <Link to={"/guitar/"+e.id}><img class="card-img-top border-bottom " src={e.lowresolutionimageurl} alt="Card image"/></Link>
+            <div class="card-body ">
+              <h4 class="card-title" style={{ height: "7rem", overflow: "hidden"}}>{e.name}</h4>
+              <a href={"/guitar/"+e.id} class="btn btn-primary rounded-3">get</a>
+              <span class="float-end">${e.price / 100}</span>
+            </div>
+          </div>
         </div>
+          </div>
+          
         ))}
     </div>
   )
