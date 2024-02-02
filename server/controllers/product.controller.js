@@ -2,27 +2,51 @@ const db = require("../db");
 
 class ProductController {
     async  addProduct(req, res) {
-        if (Object.keys(req.body).length >= 7){
-        
+        if (Object.keys(req.body).length < 7){
+            res.json("NORES")
+        } else {
             const singleElementJsonFile = req.body;
             let fullImageUrlString = ""; 
+            
+            let specsBodyArray = [];
+            // add specs !!!!!!!!!!!
+            // if (singleElementJsonFile.specs){
+            //     for (let k = 0; k < singleElementJsonFile.specs.length; k++){
+            //         let specsBodySting = "";
+            //         for (let i = 0; i < singleElementJsonFile.specs[k].specsBody.length; i++){
+            //             if (singleElementJsonFile.specs[k].specsBody[i] === ":"){
+            //                 while (singleElementJsonFile.specs[k].specsBody[i] !== undefined){
+            //                     i++;
+            //                     if (singleElementJsonFile.specs[k].specsBody[i] !== undefined && singleElementJsonFile.specs[k].specsBody[i] !== " "){
+            //                         specsValueSting += singleElementJsonFile.specs[k].specsBody[i];
+            //                     }
+            //                 }
+            //             } else {
+            //                 specsBodySting += singleElementJsonFile.specs[k].specsBody[i]
+            //             }
+            //         }
+            //             specsBodyArray.push([specsBodySting, specsValueSting])
+            //     }
+            // }
+                
+            
 
-                if (singleElementJsonFile.fullImage) {
-                    const startIndexOffullresolutionimgurl = singleElementJsonFile.fullImage.indexOf("&quot;https:") + 6;
-                    const endIndexOffullresolutionimgurl = singleElementJsonFile.fullImage.indexOf(".jpg&quot;") + 4;
+            if (singleElementJsonFile.fullImage) {
+                const startIndexOffullresolutionimgurl = singleElementJsonFile.fullImage.indexOf("&quot;https:") + 6;
+                const endIndexOffullresolutionimgurl = singleElementJsonFile.fullImage.indexOf(".jpg&quot;") + 4;
     
-                    for (let k = startIndexOffullresolutionimgurl; k < endIndexOffullresolutionimgurl; k++){
+                for (let k = startIndexOffullresolutionimgurl; k < endIndexOffullresolutionimgurl; k++){
                         fullImageUrlString += singleElementJsonFile.fullImage[k];
-                        }
                 }
+            }
                
-                if (singleElementJsonFile.price){
-                    for (let j = 0; j < singleElementJsonFile.price.length; j++) {
-                        if (typeof singleElementJsonFile.price[j] === 'number' && isFinite(singleElementJsonFile.price[j])){
+            if (singleElementJsonFile.price){
+                for (let j = 0; j < singleElementJsonFile.price.length; j++) {
+                    if (typeof singleElementJsonFile.price[j] === 'number' && isFinite(singleElementJsonFile.price[j])){
                             stringPriceToInteger += singleElementJsonFile.price[j];
-                        }
                     }
                 }
+            }
     
             function stingToNumber() {
                 let matches = singleElementJsonFile.price.match(/(\d+)/g);
@@ -46,8 +70,6 @@ class ProductController {
                 
             
         res.json(newProduct)
-        } else {
-            res.json("NORES")
         }
         
         

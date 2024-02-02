@@ -1,5 +1,5 @@
 #content {
     display: grid;
     grid-template-areas:
-    'filter main main main';
+    'filler filter main main main';
 }

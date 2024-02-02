@@ -1,7 +1,8 @@
 #filters {
-    background-color: blue;
-    width: 100px;
-    height: 200px;
     grid-area: filter;
-    margin-left: 10%;
+    margin:  100px 0px 0px 100px;
+}
+
+.individual-filter {
+    border: solid;
 }

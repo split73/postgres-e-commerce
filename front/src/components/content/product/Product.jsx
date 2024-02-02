@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import "./Product.css"
+import { Card } from 'react-bootstrap';
+
 const Product = () => {
     const [fetchData, setFetchData] = useState();
     const [order, setOrder] = useState('id');
@@ -23,7 +25,6 @@ const Product = () => {
             if (window.location.href[i] === "/"){
                 for (let j = i + 1; j < window.location.href.length; j++){
                     page += window.location.href[j]
-                    
                 }
                 break;
             }
@@ -39,23 +40,46 @@ const Product = () => {
                     }
                   }
             )
+
             setFetchData(res.data)
-            console.log(res)
+
+            for (let j = 0; j < res.data.length; j++){
+                for (let i = 0; i < res.data[0].specs.length; i++){
+                    tmpSpecs.push(JSON.parse(res.data[0].specs[i]))
+                  }
+                  tmpSpecs = []
+            }
+            
         }
         
-
+        let tmpSpecs = []
         fetch();
+
+        
     }, [order])
 
   return (
     <div id='product'>
         {/* <button onClick={handleOrderPrice}>{order}</button> */}
         {fetchData?.map((e) => (
-            <div key={e.id} className='card-container'>
-            <Link to={"/guitar/"+e.id}>
-                <img className='card-image' src={e.lowresolutionimageurl} alt='placeholder'/>
-            </Link>
-            
+          
+        
+        <div key={e.id} className='card-container'>
+
+        <Card style={{ width: '300px', height: "500px" }}>
+      <Card.Img style={{ width: '300px', height: "375"}} variant="top" src={e.lowresolutionimageurl} />
+      <Card.Body>
+        <Card.Title>{e.name}</Card.Title>
+        <Card.Text>
+          Some quick example text to build on the card title and make up the
+          bulk of the card's content.
+        </Card.Text>
+      </Card.Body>
+      <Card.Body>
+        <Card.Link href={"/guitar/"+e.id}>Card Link</Card.Link>
+        <Card.Link href="#">Another Link</Card.Link>
+      </Card.Body>
+    </Card>
         </div>
         ))}
     </div>
