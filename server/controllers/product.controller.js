@@ -68,12 +68,14 @@ class ProductController {
             let newProduct = await db.query("INSERT INTO product (name, brand, stock, lowresolutionimageurl, fullresolutionimageurl, price, overview, keyfeatures, specs, specification) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *",
                 [singleElementJsonFile.guitarName, singleElementJsonFile.specification[0].valueSpecification, getRandomInt(0, 200), singleElementJsonFile.image, fullImageUrlString, stringPriceToInteger, singleElementJsonFile.newOverview, singleElementJsonFile.keyFeatures, singleElementJsonFile.specs, singleElementJsonFile.specification]);
                 
-            
-        res.json(newProduct)
+            res.json(newProduct)
         }
-        
-        
-        
+    }
+
+    async getAmountOfProduct(req, res){
+        let amountOfProductById = await db.query("SELECT COUNT(id) FROM product");
+        console.log(amountOfProductById.rows)
+        res.json((amountOfProductById.rows))
     }
 
     async getSingleProduct(req, res) {

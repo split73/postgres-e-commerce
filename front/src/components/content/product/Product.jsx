@@ -6,6 +6,7 @@ import { Card } from 'react-bootstrap';
 
 const Product = () => {
     const [fetchData, setFetchData] = useState();
+    const [fetchAmountOfPages, setFetchAmountOfPages] = useState();
     const [order, setOrder] = useState('id');
 
     const handleOrderPrice = () => {
@@ -30,22 +31,35 @@ const Product = () => {
             }
         }
 
-        let res;
+  
 
         const fetch = async () => {
-          res = await axios.get(
-            `http://localhost:8080/api/product/${page}`, {
-              params: {
-              order: order
+        let mainDataResponse;
+        let amountOfProductResponse;
+          Promise.all([
+            mainDataResponse = await axios.get(
+              `http://localhost:8080/api/product/${page}`, {
+                params: {
+                order: order
+                }
               }
-            }
-          )
+            ),
+            amountOfProductResponse = await axios.get(
+              `http://localhost:8080/api/get-page-amount`
+            )
+              .then(console.log("fetched"))
+              .catch((error => {
+                console.log("fetch err", error)
+              }))
+          ])
 
-          setFetchData(res.data)
+          setFetchAmountOfPages(Math.floor(amountOfProductResponse.data[0].count/20))
+          //20 -> product.controller product amount 
+          setFetchData(mainDataResponse.data)
 
-          for (let j = 0; j < res.data.length; j++){
-            for (let i = 0; i < res.data[0].specs.length; i++){
-              tmpSpecs.push(JSON.parse(res.data[0].specs[i]))
+          for (let j = 0; j < mainDataResponse.data.length; j++){
+            for (let i = 0; i < mainDataResponse.data[0].specs.length; i++){
+              tmpSpecs.push(JSON.parse(mainDataResponse.data[0].specs[i]))
             }
             tmpSpecs = []
           }
