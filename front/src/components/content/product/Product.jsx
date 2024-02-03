@@ -33,29 +33,26 @@ const Product = () => {
         let res;
 
         const fetch = async () => {
-             res = await axios.get(
-                `http://localhost:8080/api/product/${page}`, {
-                    params: {
-                      order: order
-                    }
-                  }
-            )
-
-            setFetchData(res.data)
-
-            for (let j = 0; j < res.data.length; j++){
-                for (let i = 0; i < res.data[0].specs.length; i++){
-                    tmpSpecs.push(JSON.parse(res.data[0].specs[i]))
-                  }
-                  tmpSpecs = []
+          res = await axios.get(
+            `http://localhost:8080/api/product/${page}`, {
+              params: {
+              order: order
+              }
             }
-            
+          )
+
+          setFetchData(res.data)
+
+          for (let j = 0; j < res.data.length; j++){
+            for (let i = 0; i < res.data[0].specs.length; i++){
+              tmpSpecs.push(JSON.parse(res.data[0].specs[i]))
+            }
+            tmpSpecs = []
+          }
         }
         
-        let tmpSpecs = []
-        fetch();
-
-        
+      let tmpSpecs = []
+      fetch();
     }, [order])
 
   return (
@@ -79,7 +76,7 @@ const Product = () => {
             </Link>
 
             <div class="card-body">
-              <h4 class="card-title" style={{ height: "7rem", overflow: "hidden"}}>{e.name}</h4>
+              <h4 class="card-title" style={{ height: "8rem"}}>{e.name}</h4>
               <a href={"/guitar/"+e.id} class="btn btn-primary rounded-3">get</a>
               <span class="float-end">${e.price / 100}</span>
             </div>

@@ -25,3 +25,15 @@
 .card-image:hover .image-overlay {
     opacity: 1;
 }
+
+.card-title {
+    overflow: hidden;
+}
+
+.card-title:hover {
+    overflow-y: scroll;
+}
+
+.card-title::-webkit-scrollbar {
+    display: none;
+  }
