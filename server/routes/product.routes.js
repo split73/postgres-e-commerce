@@ -7,4 +7,5 @@ router.get('/get-single-product/:id', productController.getSingleProduct)
 router.get('/product/:p', productController.getProductRelativeToPage)
 router.get('/all-product', productController.getAllProduct)
 router.get('/get-page-amount', productController.getAmountOfProduct)
+router.get('/search-input/:input', productController.getProductBySearch)
 module.exports = router;

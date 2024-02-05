@@ -101,6 +101,13 @@ class ProductController {
         const allProduct = await db.query("SELECT * FROM product");
         res.json(allProduct.rows)
     }
+
+    async getProductBySearch(req, res) {
+        console.log(req.params)
+        const userInput = req.params.input
+        const searchResult = await db.query('SELECT * FROM product WHERE name = ($1)', [userInput])
+        res.json(searchResult.rows)
+    }
 }
 
 module.exports = new ProductController()
