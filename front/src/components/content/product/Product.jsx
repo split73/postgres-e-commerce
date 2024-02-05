@@ -6,7 +6,7 @@ import { Card } from 'react-bootstrap';
 
 const Product = () => {
     const [fetchData, setFetchData] = useState();
-    const [fetchAmountOfPages, setFetchAmountOfPages] = useState();
+    const [fetchAmountOfPages, setFetchAmountOfPages] = useState([]);
     const [order, setOrder] = useState('id');
 
     const handleOrderPrice = () => {
@@ -30,7 +30,7 @@ const Product = () => {
                 break;
             }
         }
-
+        console.log(typeof Number(page))
   
 
         const fetch = async () => {
@@ -53,8 +53,16 @@ const Product = () => {
               }))
           ])
 
-          setFetchAmountOfPages(Math.floor(amountOfProductResponse.data[0].count/20))
+          let amountOfPages = (Math.floor(amountOfProductResponse.data[0].count/20))
           //20 -> product.controller product amount 
+          let tmpAmountOfPagesArr = [];
+          for (let i = 1; i <= amountOfPages; i++){
+            tmpAmountOfPagesArr.push(<li class="page-item"><Link class="page-link" href="#">{i}</Link></li>)
+          }
+
+          tmpAmountOfPagesArr[Number(page) - 1] = <li class="page-item"><Link class="page-link active" href="#">{page}</Link></li>
+
+          setFetchAmountOfPages(tmpAmountOfPagesArr)
           setFetchData(mainDataResponse.data)
 
           for (let j = 0; j < mainDataResponse.data.length; j++){
@@ -70,35 +78,34 @@ const Product = () => {
     }, [order])
 
   return (
-    <div id='product' class="container" style={{backgroundColor: "#DADDE2"}}>
+    <div id='product' class="container border-bottom" style={{backgroundColor: "#DADDE2"}}>
         {/* <button onClick={handleOrderPrice}>{order}</button> */}
-        {fetchData?.map((e) => (
-          
-        
-        <div class="row row-cols-3 g-3" key={e.id} >
+        <div class="row row-cols-3 g-3" >
+          {fetchData?.map((e) => (
+            <div class="col">
+              <div className='card-container' class="card rounded-4 border-0 shadow p-3 bg-white rounded " style={{width:"15rem", margin: "1rem", height: "30rem"}}>
+                <Link to={"/guitar/"+e.id}>
+                  <div className='card-image'>
+                    <img class="card-img-top border-bottom " src={e.lowresolutionimageurl} alt="Card image"/>
+                    <div class="image-overlay"/>
+                  </div>
+                </Link>
 
-
-          <div class="col">
-
-          <div className='card-container' class="card rounded-4 border-0 shadow p-3 mb-5 bg-white rounded " style={{width:"15rem", margin: "1rem", height: "30rem"}}>
-            <Link to={"/guitar/"+e.id}>
-              <div className='card-image'>
-                <img class="card-img-top border-bottom " src={e.lowresolutionimageurl} alt="Card image"/>
-                <div class="image-overlay">
+                <div class="card-body">
+                  <h4 class="card-title" style={{ height: "8rem"}}>{e.name}</h4>
+                  <Link href={"/guitar/"+e.id} class="btn btn-primary rounded-3">get</Link>
+                  <span class="float-end">${e.price / 100}</span>
                 </div>
               </div>
-            </Link>
-
-            <div class="card-body">
-              <h4 class="card-title" style={{ height: "8rem"}}>{e.name}</h4>
-              <a href={"/guitar/"+e.id} class="btn btn-primary rounded-3">get</a>
-              <span class="float-end">${e.price / 100}</span>
             </div>
-          </div>
+          ))}
         </div>
-          </div>
-          
-        ))}
+
+        <ul class="pagination" style={{margin: "auto"}}>
+          <li class="page-item"><Link class="page-link" href="#">Previus</Link></li>
+          {fetchAmountOfPages}
+          <li class="page-item"><Link class="page-link" href="#">Next</Link></li>
+        </ul>
     </div>
   )
 }

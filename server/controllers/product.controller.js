@@ -2,7 +2,7 @@ const db = require("../db");
 
 class ProductController {
     async  addProduct(req, res) {
-        if (Object.keys(req.body).length < 7){
+        if (Object.keys(req.body).length < 7){ 
             res.json("NORES")
         } else {
             const singleElementJsonFile = req.body;
