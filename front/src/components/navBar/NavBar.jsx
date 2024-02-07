@@ -4,8 +4,47 @@ import axios from 'axios';
 const NavBar = () => {
   const [searchInput, setSearchInput] = useState("");
   const [onFocusElements, setOnFocusElements] = useState({data:"no results", focused: false})
+
   const handleInput = (e) => {
-    setSearchInput(e.target.value)
+    setSearchInput(e.target.value.toLowerCase())
+    const fetch = async() => {
+      const fetchSearch = await axios.get(`http://localhost:8080/api/search-input/${e.target.value.toLowerCase()}`)
+      console.log("FEETETET", fetchSearch.data)
+      const fetchedData = fetchSearch.data;
+
+      let tmpOnFocusElements = [];
+      console.log("wwwww", fetchedData[1])
+      // console.log("QQ", JSON.parse(fetchedData[1].overview[0]).overviewBody)
+  
+      fetchedData.forEach(element => {
+        tmpOnFocusElements.push(
+
+         <div class="container">
+          <div class="row">
+            <div class="col-md-2">
+              <img class="img-fluid img-thumbnail" src={element.lowresolutionimageurl}/>
+            </div>
+            <a href="#" class="col list-group-item list-group-item-action flex-column align-items-start active">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1 text-break">{element.name}</h5>
+                <small>3 days ago</small>
+              </div>  
+              <p class="mb-1 text-break">{element.overview && JSON.parse(element?.overview[0])?.overviewBody}</p>
+              <small>Donec id elit non mi porta.</small>
+            </a>
+          </div>
+         </div>
+            
+        
+        )
+      });
+
+      setOnFocusElements({data: tmpOnFocusElements, focused: true})
+    }
+
+    if (e.target.value.length > 0){
+      fetch()
+    }
   }
 
   const handleSearch = (e) => {
@@ -18,16 +57,8 @@ const NavBar = () => {
   }
 
   const handleFocusInput = () => {
-    setOnFocusElements({data: <div class="list-group" style={{minWidth: "700px", maxWidth: "50%", height: "50px", position: "absolute", top: "140%", left: "50%", transform: "translate(-50%, -50%)"}}>
-    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">List group item heading</h5>
-          <small>3 days ago</small>
-      </div>
-      <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-        <small>Donec id elit non mi porta.</small>
-    </a>
-    </div>, focused: true})
+    console.log(onFocusElements.data)
+    setOnFocusElements({...onFocusElements, focused: true})
     console.log("FOC")
   }
 
@@ -45,7 +76,7 @@ const NavBar = () => {
           </div>
         </form>
       </nav>
-      {onFocusElements.focused && onFocusElements.data}
+      {onFocusElements.focused && <div class="list-group" style={{minWidth: "700px", maxWidth: "50%", height: "50px", position: "absolute", top: "140%", left: "50%", transform: "translate(-50%, -50%)"}}>{onFocusElements.data}</div>}
     </div>
   )
 }

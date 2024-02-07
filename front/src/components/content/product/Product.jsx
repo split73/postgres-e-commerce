@@ -30,8 +30,6 @@ const Product = () => {
                 break;
             }
         }
-        console.log(typeof Number(page))
-  
 
         const fetch = async () => {
         let mainDataResponse;

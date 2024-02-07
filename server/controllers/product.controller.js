@@ -74,25 +74,22 @@ class ProductController {
 
     async getAmountOfProduct(req, res){
         let amountOfProductById = await db.query("SELECT COUNT(id) FROM product");
-        console.log(amountOfProductById.rows)
         res.json((amountOfProductById.rows))
     }
 
     async getSingleProduct(req, res) {
-        console.log("GETsinngke", req.params)
         const id = req.params.id;
         const singleProduct = await db.query('SELECT * FROM product WHERE id = $1', [id]);
         res.json(singleProduct.rows)
     }
 
     async getProductRelativeToPage(req, res) {
-        console.log(req.params, req.query.order)
         const page = req.params.p;
         const sortOrder = req.query.order
         const productAmount = 20;
         const getProductStartingFrom = page * productAmount - productAmount;
-        console.log(getProductStartingFrom, productAmount)
         const query = `SELECT * FROM product ORDER BY ${sortOrder} OFFSET ${getProductStartingFrom} ROWS FETCH FIRST ${productAmount} ROW ONLY`
+        //const query must be passed to productWithinPage as string
         const productWithinPage = await db.query(query)
         res.json(productWithinPage.rows)
     }
@@ -103,9 +100,8 @@ class ProductController {
     }
 
     async getProductBySearch(req, res) {
-        console.log(req.params)
         const userInput = req.params.input
-        const searchResult = await db.query('SELECT * FROM product WHERE name = ($1)', [userInput])
+        const searchResult = await db.query('SELECT * FROM product WHERE position(($1) in LOWER(name))>0 FETCH FIRST 5 ROW ONLY', [userInput])
         res.json(searchResult.rows)
     }
 }
