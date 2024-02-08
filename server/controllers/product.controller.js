@@ -84,13 +84,25 @@ class ProductController {
     }
 
     async getProductRelativeToPage(req, res) {
-        const page = req.params.p;
-        const sortOrder = req.query.order
-        const productAmount = 20;
-        const getProductStartingFrom = page * productAmount - productAmount;
-        const query = `SELECT * FROM product ORDER BY ${sortOrder} OFFSET ${getProductStartingFrom} ROWS FETCH FIRST ${productAmount} ROW ONLY`
+        const queryParams = {
+            page: req.params.p,
+            productAmount: 20,
+            sortOrder: req.query.order,
+            searchFilter: req.query.filter
+        }
+
+        const getProductStartingFrom = queryParams.page * queryParams.productAmount - queryParams.productAmount;
+        let query = `SELECT * FROM product `
+
+        if (queryParams.searchFilter !== undefined && queryParams.searchFilter.length > 0){
+            query += `WHERE position('${queryParams.searchFilter}' in LOWER(name))>0 `;
+        }
+     
+        query += `ORDER BY ${queryParams.sortOrder} OFFSET ${getProductStartingFrom} ROWS FETCH FIRST ${queryParams.productAmount} ROW ONLY`
+
         //const query must be passed to productWithinPage as string
         const productWithinPage = await db.query(query)
+        
         res.json(productWithinPage.rows)
     }
 

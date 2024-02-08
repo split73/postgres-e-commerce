@@ -1,69 +1,80 @@
 import React, { useState } from 'react'
 import "./NavBar.css"
 import axios from 'axios';
-const NavBar = () => {
+import { Link } from 'react-router-dom';
+
+const NavBar = ({setFilter}) => {
   const [searchInput, setSearchInput] = useState("");
   const [onFocusElements, setOnFocusElements] = useState({data:"no results", focused: false})
 
   const handleInput = (e) => {
-    setSearchInput(e.target.value.toLowerCase())
+    let input = e.target.value;
+
+    if (/^\s/.test(input)){
+      input = '';
+    } 
+
+    setSearchInput(input.toLowerCase())
+
     const fetch = async() => {
-      const fetchSearch = await axios.get(`http://localhost:8080/api/search-input/${e.target.value.toLowerCase()}`)
-      console.log("FEETETET", fetchSearch.data)
+      const fetchSearch = await axios.get(`http://localhost:8080/api/search-input/${input.toLowerCase()}`)
       const fetchedData = fetchSearch.data;
+      const tmpOnFocusElements = [];
 
-      let tmpOnFocusElements = [];
-      console.log("wwwww", fetchedData[1])
-      // console.log("QQ", JSON.parse(fetchedData[1].overview[0]).overviewBody)
-  
-      fetchedData.forEach(element => {
-        tmpOnFocusElements.push(
-
-         <div class="container">
-          <div class="row">
-            <div class="col-md-2">
-              <img class="img-fluid img-thumbnail" src={element.lowresolutionimageurl}/>
+      if (fetchedData.length > 0){
+        fetchedData.forEach(element => {
+          tmpOnFocusElements.push(
+           <div class="container">
+            <div class="row">
+              <div class="col-md-2">
+                <img class="img-fluid img-thumbnail" src={element.lowresolutionimageurl}/>
+              </div>
+              <Link to={"/guitar/"+element.id} class="col list-group-item list-group-item-action flex-column align-items-start active">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1 text-break">{element.name}</h5>
+                  <small>${element.price/100}</small>
+                </div>  
+                <p class="mb-1 text-break">{element.overview && JSON.parse(element?.overview[0])?.overviewBody}</p>
+              </Link>
             </div>
-            <a href="#" class="col list-group-item list-group-item-action flex-column align-items-start active">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1 text-break">{element.name}</h5>
-                <small>3 days ago</small>
-              </div>  
-              <p class="mb-1 text-break">{element.overview && JSON.parse(element?.overview[0])?.overviewBody}</p>
-              <small>Donec id elit non mi porta.</small>
-            </a>
-          </div>
-         </div>
-            
-        
-        )
-      });
+           </div>
+          )
+        });
+        setOnFocusElements({data: tmpOnFocusElements, focused: true})
+      } else {
+          setOnFocusElements({data:
 
-      setOnFocusElements({data: tmpOnFocusElements, focused: true})
+              <div class="md-2">
+                <p class="col list-group-item list-group-item-action flex-column align-items-start active">
+                  no results
+                </p>
+              </div>
+
+          , focused: true})
+      }
+
+      
     }
 
-    if (e.target.value.length > 0){
+    if (input.length > 0){
       fetch()
     }
   }
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const fetch = async() => {
-      const fetchSearch = await axios.get(`http://localhost:8080/api/search-input/${searchInput}`)
-      console.log(fetchSearch)
-    }
-    fetch()
+    setFilter(searchInput)
   }
 
   const handleFocusInput = () => {
-    console.log(onFocusElements.data)
     setOnFocusElements({...onFocusElements, focused: true})
-    console.log("FOC")
   }
 
   const handleBlurInput = () => {
-    setOnFocusElements({...onFocusElements, focused: false})
+    setTimeout(() => {
+      setOnFocusElements({...onFocusElements, focused: false})
+    }, 100)
+    
   }
 
   return (

@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import "./Product.css"
-import { Card } from 'react-bootstrap';
 
-const Product = () => {
+const Product = ({filter}) => {
     const [fetchData, setFetchData] = useState();
     const [fetchAmountOfPages, setFetchAmountOfPages] = useState([]);
     const [order, setOrder] = useState('id');
@@ -38,7 +37,8 @@ const Product = () => {
             mainDataResponse = await axios.get(
               `http://localhost:8080/api/product/${page}`, {
                 params: {
-                order: order
+                order: order,
+                filter: filter
                 }
               }
             ),
@@ -55,10 +55,10 @@ const Product = () => {
           //20 -> product.controller product amount 
           let tmpAmountOfPagesArr = [];
           for (let i = 1; i <= amountOfPages; i++){
-            tmpAmountOfPagesArr.push(<li class="page-item"><Link class="page-link" href="#">{i}</Link></li>)
+            tmpAmountOfPagesArr.push(<li class="page-item"><Link class="page-link" to={`/${i}`}>{i}</Link></li>)
           }
 
-          tmpAmountOfPagesArr[Number(page) - 1] = <li class="page-item"><Link class="page-link active" href="#">{page}</Link></li>
+          tmpAmountOfPagesArr[Number(page) - 1] = <li class="page-item"><Link class="page-link active">{page}</Link></li>
 
           setFetchAmountOfPages(tmpAmountOfPagesArr)
           setFetchData(mainDataResponse.data)
@@ -73,7 +73,7 @@ const Product = () => {
         
       let tmpSpecs = []
       fetch();
-    }, [order])
+    }, [order, filter])
 
   return (
     <div id='product' class="container border-bottom" style={{backgroundColor: "#DADDE2"}}>
@@ -104,6 +104,7 @@ const Product = () => {
           {fetchAmountOfPages}
           <li class="page-item"><Link class="page-link" href="#">Next</Link></li>
         </ul>
+
     </div>
   )
 }

@@ -1,16 +1,25 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Product from './product/Product'
 import "./Content.css"
 import Filters from './filters/Filters'
+import NavBar from '../navBar/NavBar'
+
 const Content = () => {
+  const [filter, setFilter] = useState("");
+
     useEffect(() => {
 
     }, [])
+
   return (
-    <div id='content'>
+    <div>
+    <NavBar setFilter={setFilter}></NavBar>
+      <div id='content'>
       <Filters></Filters>
-      <Product></Product>
+      <Product filter={filter}></Product>
     </div>
+    </div>
+    
   )
 }
 

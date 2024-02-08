@@ -8,7 +8,7 @@ function App() {
   return (
     <div style={{display: "grid"}}>
       <BrowserRouter>
-      <NavBar></NavBar>
+   
       <Routes>
         <Route path="/:page" element={<Content></Content>}/>
         <Route path="/add" element={<AddNewProduct></AddNewProduct>}/>
