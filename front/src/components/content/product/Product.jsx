@@ -5,8 +5,10 @@ import "./Product.css"
 
 const Product = ({filter}) => {
     const [fetchData, setFetchData] = useState();
-    const [fetchAmountOfPages, setFetchAmountOfPages] = useState([]);
+    const [pagination, setPagination] = useState([]);
     const [order, setOrder] = useState('id');
+    const [currentPage, setCurrentPage] = useState(0)
+    const [amountOfPages, setAmountOfPages] = useState(0)
 
     const handleOrderPrice = () => {
         console.log("order", order);
@@ -15,65 +17,132 @@ const Product = ({filter}) => {
         } else {
             setOrder('id')
         }
-        
+    }
+
+    const handleChangePage = (page) => {
+      setCurrentPage(page)
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+
+    const handleNextPage = () => {
+      if(currentPage < pagination.length){
+        setCurrentPage((prevValue) => (prevValue + 1))
+      }
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+
+    const handlePreviusPage = () => {
+      if(currentPage > 1){
+        setCurrentPage((prevValue) => (prevValue - 1))
+      }
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
 
     useEffect(() => {
-        let page = "";
+      let page = "";
 
+      if (currentPage !== 0){
+        page = currentPage;
+      } else {
         for (let i = window.location.href.length - 1; i > 0; i--){
-            if (window.location.href[i] === "/"){
-                for (let j = i + 1; j < window.location.href.length; j++){
-                    page += window.location.href[j]
-                }
-                break;
+          if (window.location.href[i] === "/"){
+            for (let j = i + 1; j < window.location.href.length; j++){
+              page += window.location.href[j]
             }
+            break;
+          }
         }
-
-        const fetch = async () => {
+        setCurrentPage(Number(page))
+      }
+  
+      const fetch = async () => {
         let mainDataResponse;
-        let amountOfProductResponse;
-          Promise.all([
-            mainDataResponse = await axios.get(
-              `http://localhost:8080/api/product/${page}`, {
-                params: {
-                order: order,
-                filter: filter
+   
+        Promise.all([
+          mainDataResponse = await axios.get(
+            `http://localhost:8080/api/product/${page}`, {
+              params: {
+              order: order,
+              filter: filter
+              }
+            }
+          ) .then(console.log("fetched succes"))
+            .catch((error => {
+              console.log("fetched err", error)
+              }))
+        ])
+
+        let tmpAmountOfPages = (Math.floor(mainDataResponse.data.countProduct/21))
+        
+        //21 -> product.controller product amount 
+
+        function paginate (){
+          let tmpPagination = [];
+
+          if (tmpAmountOfPages < 10){
+            for (let i = 1; i <= tmpAmountOfPages; i++){
+              if (i === currentPage){
+                tmpPagination.push(<li class="page-item"><button class="page-link active" onClick={() => handleChangePage(i)}>{i}</button></li>)
+              } else {
+                tmpPagination.push(<li class="page-item"><button class="page-link" onClick={() => handleChangePage(i)}>{i}</button></li>)
+              }
+            }
+          } else {
+            if (currentPage <= 5){
+              for (let i = 1; i <= 8; i++){
+                if (i === currentPage){
+                  tmpPagination.push(<li class="page-item"><button class="page-link active" onClick={() => handleChangePage(i)}>{i}</button></li>)
+                } else {
+                  tmpPagination.push(<li class="page-item"><button class="page-link" onClick={() => handleChangePage(i)}>{i}</button></li>)
                 }
               }
-            ),
-            amountOfProductResponse = await axios.get(
-              `http://localhost:8080/api/get-page-amount`
-            )
-              .then(console.log("fetched"))
-              .catch((error => {
-                console.log("fetch err", error)
-              }))
-          ])
-
-          let amountOfPages = (Math.floor(amountOfProductResponse.data[0].count/20))
-          //20 -> product.controller product amount 
-          let tmpAmountOfPagesArr = [];
-          for (let i = 1; i <= amountOfPages; i++){
-            tmpAmountOfPagesArr.push(<li class="page-item"><Link class="page-link" to={`/${i}`}>{i}</Link></li>)
-          }
-
-          tmpAmountOfPagesArr[Number(page) - 1] = <li class="page-item"><Link class="page-link active">{page}</Link></li>
-
-          setFetchAmountOfPages(tmpAmountOfPagesArr)
-          setFetchData(mainDataResponse.data)
-
-          for (let j = 0; j < mainDataResponse.data.length; j++){
-            for (let i = 0; i < mainDataResponse.data[0].specs.length; i++){
-              tmpSpecs.push(JSON.parse(mainDataResponse.data[0].specs[i]))
+              tmpPagination.push(<li class="page-item"><div class="page-link" >...</div></li>)
+              tmpPagination.push(<li class="page-item"><button class="page-link" onClick={() => handleChangePage(tmpAmountOfPages)}>{tmpAmountOfPages}</button></li>)
+            } else if (tmpAmountOfPages - currentPage <= 4){
+              tmpPagination.push(<li class="page-item"><button class="page-link" onClick={() => handleChangePage(1)}>1</button></li>)
+              tmpPagination.push(<li class="page-item"><div class="page-link" >...</div></li>)
+              for (let i = tmpAmountOfPages - 7; i <= tmpAmountOfPages; i++){
+                if (i === currentPage){
+                  tmpPagination.push(<li class="page-item"><button class="page-link active" onClick={() => handleChangePage(i)}>{i}</button></li>)
+                } else {
+                  tmpPagination.push(<li class="page-item"><button class="page-link" onClick={() => handleChangePage(i)}>{i}</button></li>)
+                }
+              }
+            } else {
+              tmpPagination.push(<li class="page-item"><button class="page-link" onClick={() => handleChangePage(1)}>1</button></li>)
+              tmpPagination.push(<li class="page-item"><div class="page-link" >...</div></li>)
+              for (let i = currentPage - 3; i <= currentPage + 3; i++){
+                if (i === currentPage){
+                  tmpPagination.push(<li class="page-item"><button class="page-link active" onClick={() => handleChangePage(i)}>{i}</button></li>)
+                } else {
+                  tmpPagination.push(<li class="page-item"><button class="page-link" onClick={() => handleChangePage(i)}>{i}</button></li>)
+                }
+              }
+              tmpPagination.push(<li class="page-item"><div class="page-link" >...</div></li>)
+              tmpPagination.push(<li class="page-item"><button class="page-link" onClick={() => handleChangePage(tmpAmountOfPages)}>{tmpAmountOfPages}</button></li>)
             }
-            tmpSpecs = []
           }
+
+          setPagination(tmpPagination)
         }
+        
+        paginate()
+
+        setAmountOfPages(tmpAmountOfPages)
+        setFetchData(mainDataResponse.data.productData)
+
+        for (let j = 0; j < mainDataResponse.data.productData.length; j++){
+          for (let i = 0; i < mainDataResponse.data.productData[0].specs.length; i++){
+            tmpSpecs.push(JSON.parse(mainDataResponse.data.productData[0].specs[i]))
+          }
+          tmpSpecs = []
+        }      
+      }
         
       let tmpSpecs = []
       fetch();
-    }, [order, filter])
+      
+    }, [order, filter, currentPage])
 
   return (
     <div id='product' class="container border-bottom" style={{backgroundColor: "#DADDE2"}}>
@@ -100,9 +169,9 @@ const Product = ({filter}) => {
         </div>
 
         <ul class="pagination" style={{margin: "auto"}}>
-          <li class="page-item"><Link class="page-link" href="#">Previus</Link></li>
-          {fetchAmountOfPages}
-          <li class="page-item"><Link class="page-link" href="#">Next</Link></li>
+          {currentPage > 1 && <li class="page-item"><Link class="page-link" href="#" onClick={handlePreviusPage}>Previus</Link></li>}
+          {pagination}
+          {currentPage < amountOfPages && <li class="page-item"><Link class="page-link" href="#" onClick={handleNextPage}>Next</Link></li>}
         </ul>
 
     </div>

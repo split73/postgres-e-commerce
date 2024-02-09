@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const NavBar = ({setFilter}) => {
   const [searchInput, setSearchInput] = useState("");
-  const [onFocusElements, setOnFocusElements] = useState({data:"no results", focused: false})
+  const [onFocusElements, setOnFocusElements] = useState({data:"", focused: false})
 
   const handleInput = (e) => {
     let input = e.target.value;
