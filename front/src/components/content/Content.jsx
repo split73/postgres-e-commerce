@@ -6,7 +6,9 @@ import NavBar from '../navBar/NavBar'
 
 const Content = () => {
   const [filter, setFilter] = useState("");
-
+  const [minPriceInput, setMinPriceInput] = useState(0)
+  const [maxPriceInput, setMaxPriceInput] = useState(1000000)
+  
     useEffect(() => {
 
     }, [])
@@ -15,8 +17,8 @@ const Content = () => {
     <div>
     <NavBar setFilter={setFilter}></NavBar>
       <div id='content'>
-      <Filters></Filters>
-      <Product filter={filter}></Product>
+      <Filters setMaxPriceInput={setMaxPriceInput} setMinPriceInput={setMinPriceInput}></Filters>
+      <Product filter={filter} minPriceInput={minPriceInput} maxPriceInput={maxPriceInput}></Product>
     </div>
     </div>
     

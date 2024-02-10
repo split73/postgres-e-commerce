@@ -88,12 +88,14 @@ class ProductController {
             page: req.params.p,
             productAmount: 21,
             sortOrder: req.query.order,
-            searchFilter: req.query.filter
+            searchFilter: req.query.filter,
+            minPriceInput: req.query.minPriceInput * 100,
+            maxPriceInput: req.query.maxPriceInput * 100
         }
         const getProductStartingFrom = queryParams.page * queryParams.productAmount - queryParams.productAmount;
 
-        let productQuery = `SELECT * FROM product `
-        let pageQuery = "SELECT COUNT(id) FROM product";
+        let productQuery = `SELECT * FROM product WHERE price >= ${queryParams.minPriceInput} and price <= ${queryParams.maxPriceInput} `
+        let pageQuery = `SELECT COUNT(id) FROM product WHERE price >= ${queryParams.minPriceInput} and price <= ${queryParams.maxPriceInput}`;
         
         if (queryParams.searchFilter !== undefined && queryParams.searchFilter.length > 0){
             productQuery += `WHERE position('${queryParams.searchFilter}' in LOWER(name))>0 `
@@ -101,7 +103,6 @@ class ProductController {
         }
      
         productQuery += `ORDER BY ${queryParams.sortOrder} OFFSET ${getProductStartingFrom} ROWS FETCH FIRST ${queryParams.productAmount} ROW ONLY`
-
         // productQuery must be passed to productWithinPage as string
         const productWithinPage = await db.query(productQuery)
         const getAmountOfProduct = await db.query(pageQuery)

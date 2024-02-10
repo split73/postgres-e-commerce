@@ -64,6 +64,7 @@ const NavBar = ({setFilter}) => {
   const handleSearch = (e) => {
     e.preventDefault();
     setFilter(searchInput)
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }
 
   const handleFocusInput = () => {

@@ -3,20 +3,23 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import "./Product.css"
 
-const Product = ({filter}) => {
+const Product = ({filter, minPriceInput, maxPriceInput}) => {
     const [fetchData, setFetchData] = useState();
     const [pagination, setPagination] = useState([]);
     const [order, setOrder] = useState('id');
     const [currentPage, setCurrentPage] = useState(0)
     const [amountOfPages, setAmountOfPages] = useState(0)
 
-    const handleOrderPrice = () => {
-        console.log("order", order);
-        if (order === "id"){
-            setOrder('price DESC')
-        } else {
-            setOrder('id')
-        }
+    const handleOrderPriceLowHigh = () => {
+      if (order !== 'price ASC'){
+        setOrder('price ASC')
+      }
+    }
+
+    const handleOrderPriceHighLow = () => {
+      if (order !== 'price DESC'){
+        setOrder('price DESC')
+      }
     }
 
     const handleChangePage = (page) => {
@@ -63,7 +66,9 @@ const Product = ({filter}) => {
             `http://localhost:8080/api/product/${page}`, {
               params: {
               order: order,
-              filter: filter
+              filter: filter,
+              minPriceInput: minPriceInput,
+              maxPriceInput: maxPriceInput,
               }
             }
           ) .then(console.log("fetched succes"))
@@ -73,7 +78,6 @@ const Product = ({filter}) => {
         ])
 
         let tmpAmountOfPages = (Math.floor(mainDataResponse.data.countProduct/21))
-        
         //21 -> product.controller product amount 
 
         function paginate (){
@@ -129,6 +133,7 @@ const Product = ({filter}) => {
         paginate()
 
         setAmountOfPages(tmpAmountOfPages)
+        
         setFetchData(mainDataResponse.data.productData)
 
         for (let j = 0; j < mainDataResponse.data.productData.length; j++){
@@ -142,11 +147,21 @@ const Product = ({filter}) => {
       let tmpSpecs = []
       fetch();
       
-    }, [order, filter, currentPage])
+    }, [order, filter, currentPage, minPriceInput, maxPriceInput])
+
+
 
   return (
     <div id='product' class="container border-bottom" style={{backgroundColor: "#DADDE2"}}>
-        {/* <button onClick={handleOrderPrice}>{order}</button> */}
+      <div class="dropdown">
+        <button class="btn btn-lg btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Price
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <button class="dropdown-item" onClick={handleOrderPriceLowHigh}>Price low-high</button>
+          <button class="dropdown-item" onClick={handleOrderPriceHighLow}>Price high-low</button>
+        </div>
+      </div>
         <div class="row row-cols-3 g-3" >
           {fetchData?.map((e) => (
             <div class="col">
