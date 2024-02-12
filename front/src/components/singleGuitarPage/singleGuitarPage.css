@@ -1,0 +1,44 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 18% 32% 32% 18%;
+}
+
+.main-image-figure {
+  width: 600px;
+  background-repeat: no-repeat;
+  border-style: solid;
+  border-width: 2px 0px;
+  grid-column-start: 2;
+}
+  
+.main-image-figure:hover .main-image {
+  opacity: 0;
+}
+  
+.main-image {
+  display: block;
+  width: 100%;
+  pointer-events: none;
+}
+
+.main-info {
+  text-align: center;
+  border-style: solid;
+  border-width: 0px 0px 0px 2px;
+  grid-column-start: 3;
+}
+
+.wrapper-overview-specs {
+  text-align: center;
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 2;
+}
+
+.select-overview-specs {
+
+}
+
+.specification {
+  word-spacing: 10px;
+}
