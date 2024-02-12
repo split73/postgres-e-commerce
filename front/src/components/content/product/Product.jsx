@@ -9,6 +9,7 @@ const Product = ({filter, minPriceInput, maxPriceInput}) => {
     const [order, setOrder] = useState('id');
     const [currentPage, setCurrentPage] = useState(0)
     const [amountOfPages, setAmountOfPages] = useState(0)
+    const [currentFilter, setCurrentFilter] = useState("")
 
     const handleOrderPriceLowHigh = () => {
       if (order !== 'price ASC'){
@@ -25,10 +26,11 @@ const Product = ({filter, minPriceInput, maxPriceInput}) => {
     const handleChangePage = (page) => {
       setCurrentPage(page)
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      
     }
 
     const handleNextPage = () => {
-      if(currentPage < pagination.length){
+      if(currentPage < amountOfPages){
         setCurrentPage((prevValue) => (prevValue + 1))
       }
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -42,6 +44,9 @@ const Product = ({filter, minPriceInput, maxPriceInput}) => {
     }
 
     useEffect(() => {
+      if (currentFilter !== filter){
+        
+      }
       let page = "";
 
       if (currentPage !== 0){
@@ -86,44 +91,44 @@ const Product = ({filter, minPriceInput, maxPriceInput}) => {
           if (tmpAmountOfPages < 10){
             for (let i = 1; i <= tmpAmountOfPages; i++){
               if (i === currentPage){
-                tmpPagination.push(<li class="page-item"><button class="page-link active" onClick={() => handleChangePage(i)}>{i}</button></li>)
+                tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${i}`}   class="page-link active" onClick={() => handleChangePage(i)}>{i}</Link></li>)
               } else {
-                tmpPagination.push(<li class="page-item"><button class="page-link" onClick={() => handleChangePage(i)}>{i}</button></li>)
+                tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${i}`}   class="page-link" onClick={() => handleChangePage(i)}>{i}</Link></li>)
               }
             }
           } else {
             if (currentPage <= 5){
               for (let i = 1; i <= 8; i++){
                 if (i === currentPage){
-                  tmpPagination.push(<li class="page-item"><button class="page-link active" onClick={() => handleChangePage(i)}>{i}</button></li>)
+                  tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${i}`}  class="page-link active" onClick={() => handleChangePage(i)}>{i}</Link></li>)
                 } else {
-                  tmpPagination.push(<li class="page-item"><button class="page-link" onClick={() => handleChangePage(i)}>{i}</button></li>)
+                  tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${i}`}  class="page-link" onClick={() => handleChangePage(i)}>{i}</Link></li>)
                 }
               }
               tmpPagination.push(<li class="page-item"><div class="page-link" >...</div></li>)
-              tmpPagination.push(<li class="page-item"><button class="page-link" onClick={() => handleChangePage(tmpAmountOfPages)}>{tmpAmountOfPages}</button></li>)
+              tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${tmpAmountOfPages}`}  class="page-link" onClick={() => handleChangePage(tmpAmountOfPages)}>{tmpAmountOfPages}</Link></li>)
             } else if (tmpAmountOfPages - currentPage <= 4){
-              tmpPagination.push(<li class="page-item"><button class="page-link" onClick={() => handleChangePage(1)}>1</button></li>)
+              tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/1`}  class="page-link" onClick={() => handleChangePage(1)}>1</Link></li>)
               tmpPagination.push(<li class="page-item"><div class="page-link" >...</div></li>)
               for (let i = tmpAmountOfPages - 7; i <= tmpAmountOfPages; i++){
                 if (i === currentPage){
-                  tmpPagination.push(<li class="page-item"><button class="page-link active" onClick={() => handleChangePage(i)}>{i}</button></li>)
+                  tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${i}`}  class="page-link active" onClick={() => handleChangePage(i)}>{i}</Link></li>)
                 } else {
-                  tmpPagination.push(<li class="page-item"><button class="page-link" onClick={() => handleChangePage(i)}>{i}</button></li>)
+                  tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${i}`}  class="page-link" onClick={() => handleChangePage(i)}>{i}</Link></li>)
                 }
               }
             } else {
-              tmpPagination.push(<li class="page-item"><button class="page-link" onClick={() => handleChangePage(1)}>1</button></li>)
+              tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/1`} class="page-link" onClick={() => handleChangePage(1)}>1</Link></li>)
               tmpPagination.push(<li class="page-item"><div class="page-link" >...</div></li>)
               for (let i = currentPage - 3; i <= currentPage + 3; i++){
                 if (i === currentPage){
-                  tmpPagination.push(<li class="page-item"><button class="page-link active" onClick={() => handleChangePage(i)}>{i}</button></li>)
+                  tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${i}`}  class="page-link active" onClick={() => handleChangePage(i)}>{i}</Link></li>)
                 } else {
-                  tmpPagination.push(<li class="page-item"><button class="page-link" onClick={() => handleChangePage(i)}>{i}</button></li>)
+                  tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${i}`} class="page-link" onClick={() => handleChangePage(i)}>{i}</Link></li>)
                 }
               }
               tmpPagination.push(<li class="page-item"><div class="page-link" >...</div></li>)
-              tmpPagination.push(<li class="page-item"><button class="page-link" onClick={() => handleChangePage(tmpAmountOfPages)}>{tmpAmountOfPages}</button></li>)
+              tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${tmpAmountOfPages}`} class="page-link" onClick={() => handleChangePage(tmpAmountOfPages)}>{tmpAmountOfPages}</Link></li>)
             }
           }
 
@@ -185,9 +190,9 @@ const Product = ({filter, minPriceInput, maxPriceInput}) => {
         </div>
 
         <ul class="pagination" style={{margin: "auto"}}>
-          {currentPage > 1 && <li class="page-item"><Link class="page-link" href="#" onClick={handlePreviusPage}>Previus</Link></li>}
+          {currentPage > 1 && <li class="page-item"><Link to={`http://localhost:3000/${currentPage-1}`} class="page-link" href="#" onClick={handlePreviusPage}>Previus</Link></li>}
           {pagination}
-          {currentPage < amountOfPages && <li class="page-item"><Link class="page-link" href="#" onClick={handleNextPage}>Next</Link></li>}
+          {currentPage < amountOfPages && <li class="page-item"><Link to={`http://localhost:3000/${currentPage + 1}`} class="page-link" href="#" onClick={handleNextPage}>Next</Link></li>}
         </ul>
 
     </div>

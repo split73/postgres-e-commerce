@@ -10,24 +10,33 @@ class ProductController {
             
             let specsBodyArray = [];
             // add specs !!!!!!!!!!!
-            // if (singleElementJsonFile.specs){
-            //     for (let k = 0; k < singleElementJsonFile.specs.length; k++){
-            //         let specsBodySting = "";
-            //         for (let i = 0; i < singleElementJsonFile.specs[k].specsBody.length; i++){
-            //             if (singleElementJsonFile.specs[k].specsBody[i] === ":"){
-            //                 while (singleElementJsonFile.specs[k].specsBody[i] !== undefined){
-            //                     i++;
-            //                     if (singleElementJsonFile.specs[k].specsBody[i] !== undefined && singleElementJsonFile.specs[k].specsBody[i] !== " "){
-            //                         specsValueSting += singleElementJsonFile.specs[k].specsBody[i];
-            //                     }
-            //                 }
-            //             } else {
-            //                 specsBodySting += singleElementJsonFile.specs[k].specsBody[i]
-            //             }
-            //         }
-            //             specsBodyArray.push([specsBodySting, specsValueSting])
-            //     }
-            // }
+            if (singleElementJsonFile.specs){
+                for (let k = 0; k < singleElementJsonFile.specs.length; k++){
+                    let specsBodySting = "";
+                    let specsValueSting = ""
+
+                    for (let i = 0; i < singleElementJsonFile.specs[k].specsBody.length; i++){
+                        
+                        if (singleElementJsonFile.specs[k].specsBody[i] === ":"){
+                            while (singleElementJsonFile.specs[k].specsBody[i] !== undefined){
+                                i++;
+                                if (singleElementJsonFile.specs[k].specsBody[i] !== undefined && singleElementJsonFile.specs[k].specsBody[i] !== " "){
+                                    specsValueSting += singleElementJsonFile.specs[k].specsBody[i];
+                                }
+                            }
+                        } else {
+                            specsBodySting += singleElementJsonFile.specs[k].specsBody[i]
+                        }
+                    }
+                        specsBodyArray.push([specsBodySting, specsValueSting])
+                }
+            }
+
+            // console.log(specsBodyArray[0])
+            for (let i = 0; i < specsBodyArray.length; i++){
+                console.log("QQ", specsBodyArray[i][0], specsBodyArray[i][1])
+                
+            }
                 
             
 
@@ -98,11 +107,12 @@ class ProductController {
         let pageQuery = `SELECT COUNT(id) FROM product WHERE price >= ${queryParams.minPriceInput} and price <= ${queryParams.maxPriceInput}`;
         
         if (queryParams.searchFilter !== undefined && queryParams.searchFilter.length > 0){
-            productQuery += `WHERE position('${queryParams.searchFilter}' in LOWER(name))>0 `
-            pageQuery += ` WHERE position('${queryParams.searchFilter}' in LOWER(name))>0 `
+            productQuery += ` AND position('${queryParams.searchFilter}' in LOWER(name))>0 `
+            pageQuery += ` And position('${queryParams.searchFilter}' in LOWER(name))>0 `
         }
      
         productQuery += `ORDER BY ${queryParams.sortOrder} OFFSET ${getProductStartingFrom} ROWS FETCH FIRST ${queryParams.productAmount} ROW ONLY`
+        console.log(productQuery)
         // productQuery must be passed to productWithinPage as string
         const productWithinPage = await db.query(productQuery)
         const getAmountOfProduct = await db.query(pageQuery)
