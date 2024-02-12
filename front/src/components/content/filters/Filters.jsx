@@ -3,7 +3,7 @@ import "./Filters.css"
 
 const category = ["brand", "price", "stock"]
 
-const Filters = ({maxPriceInput, minPriceInput, setMaxPriceInput, setMinPriceInput}) => {
+const Filters = ({setMaxPriceInput, setMinPriceInput}) => {
   const [localMinPriceInput, setLocalMinPriceInput] = useState(0);
   const [localMaxPriceInput, setLocalMaxPriceInput] = useState(1000000);
 
@@ -41,7 +41,7 @@ const Filters = ({maxPriceInput, minPriceInput, setMaxPriceInput, setMinPriceInp
             <span>
                 filter
             </span>
-            <div>
+            <div class="border-top border-bottom border-secondary border-2">
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text" id="inputGroup-sizing-default">min price</span>
@@ -54,6 +54,12 @@ const Filters = ({maxPriceInput, minPriceInput, setMaxPriceInput, setMinPriceInp
                 </div>
                 <input type="number" value={localMaxPriceInput} class="form-control" aria-label="Default" onBlur={hadnlePassMaxPriceInput} onInput={(e) => handleMaxPriceInput(e)} placeholder={localMaxPriceInput} aria-describedby="inputGroup-sizing-default"/>
               </div>
+            </div>
+            <span>
+                brand
+            </span>
+            <div>
+                in stock
             </div>
         </div>
     </div>

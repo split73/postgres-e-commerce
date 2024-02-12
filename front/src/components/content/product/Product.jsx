@@ -135,6 +135,7 @@ const Product = ({filter, minPriceInput, maxPriceInput}) => {
         setAmountOfPages(tmpAmountOfPages)
         
         setFetchData(mainDataResponse.data.productData)
+        console.log(mainDataResponse.data.productData)
 
         for (let j = 0; j < mainDataResponse.data.productData.length; j++){
           for (let i = 0; i < mainDataResponse.data.productData[0].specs.length; i++){
