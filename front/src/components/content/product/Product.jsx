@@ -44,6 +44,7 @@ const Product = ({filter, minPriceInput, maxPriceInput}) => {
     }
 
     useEffect(() => {
+      document.body.style.overflow = "visible"
       if (currentFilter !== filter){
         
       }

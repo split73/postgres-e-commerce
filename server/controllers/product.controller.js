@@ -121,6 +121,13 @@ class ProductController {
         res.json(result)
     }
 
+    async getStartingPageProduct(req, res) {
+        const getProductStartingFrom = 95
+
+        const productQuery = await db.query('SELECT * FROM product OFFSET $1 ROWS FETCH FIRST 10 ROW ONLY', [getProductStartingFrom])
+        res.json(productQuery.rows)
+    }
+
     async getAllProduct(req, res) {
         const allProduct = await db.query("SELECT * FROM product");
         res.json(allProduct.rows)
