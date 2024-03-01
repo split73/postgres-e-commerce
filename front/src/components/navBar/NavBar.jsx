@@ -80,13 +80,15 @@ const NavBar = ({setFilter}) => {
 
   return (
     <div id="navbar">
-      <nav class="navbar navbar-light bg-light justify-content-center">
+      <nav class="navbar navbar-light bg-light justify-content-between">
+      <Link to={"/"} style={{marginLeft: "10px"}} type="button" class="btn btn-outline-secondary">Home</Link>
         <form class="form-inline w-50">
           <div class="input-group">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" onBlur={handleBlurInput} onFocus={handleFocusInput} onInput={(e) => handleInput(e)}/>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onClick={(e) => handleSearch(e)}>Search</button>
           </div>
         </form>
+        <div></div>
       </nav>
       {onFocusElements.focused && <div class="list-group" style={{minWidth: "700px", maxWidth: "50%", height: "50px", position: "absolute", top: "140%", left: "50%", transform: "translate(-50%, -50%)"}}>{onFocusElements.data}</div>}
     </div>
