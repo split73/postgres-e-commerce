@@ -19,7 +19,7 @@ const Content = () => {
       <div id='content'>
       <Filters setMaxPriceInput={setMaxPriceInput} setMinPriceInput={setMinPriceInput}></Filters>
       <Product filter={filter} minPriceInput={minPriceInput} maxPriceInput={maxPriceInput}></Product>
-    </div>
+      </div>
     </div>
     
   )

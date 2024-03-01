@@ -1,0 +1,55 @@
+/* body {
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+    margin: 0rem;
+    overflow: hidden;
+  } */
+
+#wrapper {
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+    margin: 0rem;
+    overflow: hidden;
+}
+
+#wrapper:hover {
+    cursor: grab;
+}
+
+#image-track > .image {
+    width: 20vmin;
+    height: 56vmin;
+    object-fit: cover;
+    object-position: 80% center;
+}
+
+#image-track {
+    display: flex;
+    gap: 4vmin;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(0%, -50%);
+    user-select: none;
+}
+
+.more-button {
+    background-color: white;
+    line-height: 56vmin;
+    transition: background-color 1s ease-out 20ms;
+
+    text-decoration: none;
+    color: black;
+    
+}
+
+.more-button:hover{
+    background-color: rgb(255, 167, 167);
+}
+
+#store-link-text {
+    font-family: Arial Black;
+    transform: translate(20%, 400%);
+}

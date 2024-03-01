@@ -100,6 +100,7 @@ const SingleGuitarPage = () => {
   }, [])
 
   return (
+    <div>
     <div className='wrapper'>
       <figure className='main-image-figure' onMouseMove={handleZoomOnHover} style={imageStyle}>
         <img className='main-image' src={imageToDisplay} />
@@ -145,6 +146,7 @@ const SingleGuitarPage = () => {
             ))}
           </ul>
       </div>
+    </div>
     </div>
   )
 }
