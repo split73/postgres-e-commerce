@@ -17,7 +17,7 @@ const NavBar = ({setFilter}) => {
     setSearchInput(input.toLowerCase())
 
     const fetch = async() => {
-      const fetchSearch = await axios.get(`http://localhost:8080/api/search-input/${input.toLowerCase()}`)
+      const fetchSearch = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/search-input/${input.toLowerCase()}`)
       const fetchedData = fetchSearch.data;
       const tmpOnFocusElements = [];
 

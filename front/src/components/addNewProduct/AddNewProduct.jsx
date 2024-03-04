@@ -17,11 +17,8 @@ const AddNewProduct = () => {
       }
 
     const handlePost = () => {
-
-        
         for (let i = 0; i < file.product.length; i++){
-          console.log(i, "QQ", file.product[i])
-          axios.post('http://localhost:8080/api/add-product', file.product[i], {
+          axios.post(`${process.env.REACT_APP_SERVER_URL}/api/add-product`, file.product[i], {
           headers: {
             "Content-Type": "application/json"
           }

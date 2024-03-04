@@ -70,7 +70,7 @@ const MainPage = () => {
 
     const fetch = async() => {
       const fetchSearch = await axios.get(
-        "http://localhost:8080/api/main-page"
+        `${process.env.REACT_APP_SERVER_URL}/api/main-page`
       )
 
       setData(fetchSearch.data)

@@ -10,6 +10,7 @@ const Product = ({filter, minPriceInput, maxPriceInput}) => {
     const [currentPage, setCurrentPage] = useState(0)
     const [amountOfPages, setAmountOfPages] = useState(0)
     const [currentFilter, setCurrentFilter] = useState("")
+    const [brands, setBrands] = useState()
 
     const handleOrderPriceLowHigh = () => {
       if (order !== 'price ASC'){
@@ -69,7 +70,7 @@ const Product = ({filter, minPriceInput, maxPriceInput}) => {
    
         Promise.all([
           mainDataResponse = await axios.get(
-            `http://localhost:8080/api/product/${page}`, {
+            `${process.env.REACT_APP_SERVER_URL}/api/product/${page}`, {
               params: {
               order: order,
               filter: filter,
@@ -142,6 +143,25 @@ const Product = ({filter, minPriceInput, maxPriceInput}) => {
         
         setFetchData(mainDataResponse.data.productData)
         console.log(mainDataResponse.data.productData)
+        console.log("BRAND", mainDataResponse.data.brandsData)
+
+        mapBrands()
+
+        function mapBrands () {
+          const mapBrand = {}
+
+          for (let i = 0; i < mainDataResponse.data.brandsData.length; i++){
+            if (Object.hasOwn(mapBrand, mainDataResponse.data.brandsData[i].brand)){
+              mapBrand[mainDataResponse.data.brandsData[i].brand] = mapBrand[mainDataResponse.data.brandsData[i].brand] + 1
+            } else {
+              mapBrand[mainDataResponse.data.brandsData[i].brand] = 1
+            }
+          }
+          console.log("QQ", mapBrand)
+
+          setBrands(structuredClone(mapBrand))
+        }
+
 
         for (let j = 0; j < mainDataResponse.data.productData.length; j++){
           for (let i = 0; i < mainDataResponse.data.productData[0].specs.length; i++){
