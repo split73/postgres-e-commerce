@@ -1,13 +1,13 @@
 import AddNewProduct from "./components/addNewProduct/AddNewProduct";
 import Content from "./components/content/Content";
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { HashRouter, Route, Routes } from "react-router-dom"
 import SingleGuitarPage from "./components/singleGuitarPage/SingleGuitarPage"
 import MainPage from "./components/mainPage/MainPage";
 
 function App() {
   return (
     <div style={{display: "grid"}}>
-      <BrowserRouter>
+      <HashRouter>
    
       <Routes>
         <Route path="/:page" element={<Content></Content>}/>
@@ -15,7 +15,7 @@ function App() {
         <Route path="/guitar/:id" element={<SingleGuitarPage></SingleGuitarPage>}/>
         <Route path="/" element={<MainPage></MainPage>}/>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
     </div>
   
   );

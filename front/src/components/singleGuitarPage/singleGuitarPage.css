@@ -6,9 +6,8 @@
 .main-image-figure {
   width: 600px;
   background-repeat: no-repeat;
-  border-style: solid;
-  border-width: 2px 0px;
   grid-column-start: 2;
+  border: 1px solid;
 }
   
 .main-image-figure:hover .main-image {
@@ -23,8 +22,6 @@
 
 .main-info {
   text-align: center;
-  border-style: solid;
-  border-width: 0px 0px 0px 2px;
   grid-column-start: 3;
 }
 
@@ -41,4 +38,8 @@
 
 .specification {
   word-spacing: 10px;
+}
+
+#short-overView {
+  margin: 50px;
 }

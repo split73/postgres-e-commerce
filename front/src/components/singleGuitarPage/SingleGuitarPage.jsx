@@ -14,6 +14,7 @@ const SingleGuitarPage = () => {
   const [showToggle, setShowToggle] = useState(true)
   const [keyFeatures, setKeyFeatures] = useState(["placeholder"])
   const [specs, setSpecs] = useState([]);
+  const [shortOverView, setShortOverView] = useState();
 
   const handleZoomOnHover = (e) => {
     const {left, top, width, height} = e.target.getBoundingClientRect();
@@ -24,6 +25,7 @@ const SingleGuitarPage = () => {
 
   const handleLogFetch = () => {
     console.log(fetchData[0])
+    console.log(JSON.parse(fetchData[0].keyfeatures[0]).keyFeaturesBody)
   }
 
   const handleShowOverview = () => {
@@ -50,7 +52,7 @@ const SingleGuitarPage = () => {
 
     const fetch = async () => {
       res = await axios.get(
-         `http://localhost:8080/api/get-single-product/${page}`
+         `${process.env.REACT_APP_SERVER_URL}/api/get-single-product/${page}`
      )
 
     let tmpSpecefication = [];
@@ -74,12 +76,12 @@ const SingleGuitarPage = () => {
       tmpSpecs.push(JSON.parse(res.data[0].specs[i]))
     }
 
-    console.log(tmpSpecs[0].specsBody)
 
     setSpecification(tmpSpecefication)
     setOverview(tmpOverview)
     setKeyFeatures(tmpKeyFeatures)
     setSpecs(tmpSpecs)
+    setShortOverView(JSON.parse(res.data[0]?.keyfeatures[0])?.keyFeaturesBody)
 
     setFetchData(res.data[0])
     
@@ -100,14 +102,18 @@ const SingleGuitarPage = () => {
   }, [])
 
   return (
-    <div>
     <div className='wrapper'>
       <figure className='main-image-figure' onMouseMove={handleZoomOnHover} style={imageStyle}>
         <img className='main-image' src={imageToDisplay} />
       </figure>
       <div className='main-info'>
         <h1 className='title'>{fetchData[0]?.name || <Skeleton/>}</h1>
-        <h2 className='price'>{fetchData[0]?.price || <Skeleton/>}</h2>
+        <h3 id='short-overView'>{shortOverView}</h3>
+        <div class="d-flex justify-content-around">
+          <button type="button" class="btn btn-dark">Buy</button>
+          <h2 className='price'>${fetchData[0]?.price / 100 || <Skeleton/>}</h2>
+        </div>
+
       </div>
       
       <div className='wrapper-overview-specs'>
@@ -146,7 +152,6 @@ const SingleGuitarPage = () => {
             ))}
           </ul>
       </div>
-    </div>
     </div>
   )
 }

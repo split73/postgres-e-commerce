@@ -103,21 +103,24 @@ class ProductController {
         }
         const getProductStartingFrom = queryParams.page * queryParams.productAmount - queryParams.productAmount;
 
-        let productQuery = `SELECT * FROM product WHERE price >= ${queryParams.minPriceInput} and price <= ${queryParams.maxPriceInput} `
+        let productQuery = `SELECT * FROM product WHERE price >= ${queryParams.minPriceInput} and price <= ${queryParams.maxPriceInput} `;
         let pageQuery = `SELECT COUNT(id) FROM product WHERE price >= ${queryParams.minPriceInput} and price <= ${queryParams.maxPriceInput}`;
-        
+        let brandsQuery = `SELECT brand FROM product WHERE price >= ${queryParams.minPriceInput} and price <= ${queryParams.maxPriceInput}`;
+
         if (queryParams.searchFilter !== undefined && queryParams.searchFilter.length > 0){
             productQuery += ` AND position('${queryParams.searchFilter}' in LOWER(name))>0 `
             pageQuery += ` And position('${queryParams.searchFilter}' in LOWER(name))>0 `
+            brandsQuery += ` And position('${queryParams.searchFilter}' in LOWER(name))>0 `
         }
      
         productQuery += `ORDER BY ${queryParams.sortOrder} OFFSET ${getProductStartingFrom} ROWS FETCH FIRST ${queryParams.productAmount} ROW ONLY`
         console.log(productQuery)
-        // productQuery must be passed to productWithinPage as string
+        // Query must be passed to productWithinPage as string
         const productWithinPage = await db.query(productQuery)
         const getAmountOfProduct = await db.query(pageQuery)
+        const getBrands = await db.query(brandsQuery)
         const countProduct = getAmountOfProduct.rows[0].count
-        const result = {productData: [...productWithinPage.rows], countProduct}
+        const result = {productData: [...productWithinPage.rows], countProduct, brandsData: [...getBrands.rows]}
         res.json(result)
     }
 
