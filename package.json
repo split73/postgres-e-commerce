@@ -1,0 +1,5 @@
+{
+    "scripts": {
+    "build:client": "yarn workspace front build"
+    }
+}
