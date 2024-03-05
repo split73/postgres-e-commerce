@@ -93,7 +93,7 @@ const MainPage = () => {
 
         ))}
         <img className='image' ref={allTheRefs.current[7] ??= { current: null }} src={"https://www.pmtonline.co.uk/media/catalog/product/cache/a1b28cf8fc4652b664c189b33cb20963/S/H/SH-NCL-040953-1.jpg"} draggable="false" onClick={() => handleNavigate(101)}></img>
-        <Link to={'http://localhost:3000/1'} ref={allTheRefs.current[8] ??= { current: null }} className='image more-button' draggable="false" >
+        <Link to={`${process.env.REACT_APP_CLIENT_URL}/1`} ref={allTheRefs.current[8] ??= { current: null }} className='image more-button' draggable="false" >
           <h1 id="store-link-text">
             more
           </h1>

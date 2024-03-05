@@ -13,7 +13,6 @@ const app = express()
 app.use(express.json())
 app.use(cors());
 app.use('/api', productRouter)
-app.set("trus proxy", 1)
 
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}.`)
