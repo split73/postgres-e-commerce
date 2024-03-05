@@ -93,44 +93,44 @@ const Product = ({filter, minPriceInput, maxPriceInput}) => {
           if (tmpAmountOfPages < 10){
             for (let i = 1; i <= tmpAmountOfPages; i++){
               if (i === currentPage){
-                tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${i}`}   class="page-link active" onClick={() => handleChangePage(i)}>{i}</Link></li>)
+                tmpPagination.push(<li class="page-item"><Link to={`${process.env.REACT_APP_CLIENT_URL}/store/${i}`}   class="page-link active" onClick={() => handleChangePage(i)}>{i}</Link></li>)
               } else {
-                tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${i}`}   class="page-link" onClick={() => handleChangePage(i)}>{i}</Link></li>)
+                tmpPagination.push(<li class="page-item"><Link to={`${process.env.REACT_APP_CLIENT_URL}/store/${i}`}   class="page-link" onClick={() => handleChangePage(i)}>{i}</Link></li>)
               }
             }
           } else {
             if (currentPage <= 5){
               for (let i = 1; i <= 8; i++){
                 if (i === currentPage){
-                  tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${i}`}  class="page-link active" onClick={() => handleChangePage(i)}>{i}</Link></li>)
+                  tmpPagination.push(<li class="page-item"><Link to={`${process.env.REACT_APP_CLIENT_URL}/store/${i}`}  class="page-link active" onClick={() => handleChangePage(i)}>{i}</Link></li>)
                 } else {
-                  tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${i}`}  class="page-link" onClick={() => handleChangePage(i)}>{i}</Link></li>)
+                  tmpPagination.push(<li class="page-item"><Link to={`${process.env.REACT_APP_CLIENT_URL}/store/${i}`}  class="page-link" onClick={() => handleChangePage(i)}>{i}</Link></li>)
                 }
               }
               tmpPagination.push(<li class="page-item"><div class="page-link" >...</div></li>)
-              tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${tmpAmountOfPages}`}  class="page-link" onClick={() => handleChangePage(tmpAmountOfPages)}>{tmpAmountOfPages}</Link></li>)
+              tmpPagination.push(<li class="page-item"><Link to={`${process.env.REACT_APP_CLIENT_URL}/store/${tmpAmountOfPages}`}  class="page-link" onClick={() => handleChangePage(tmpAmountOfPages)}>{tmpAmountOfPages}</Link></li>)
             } else if (tmpAmountOfPages - currentPage <= 4){
-              tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/1`}  class="page-link" onClick={() => handleChangePage(1)}>1</Link></li>)
+              tmpPagination.push(<li class="page-item"><Link to={`${process.env.REACT_APP_CLIENT_URL}/store/1`}  class="page-link" onClick={() => handleChangePage(1)}>1</Link></li>)
               tmpPagination.push(<li class="page-item"><div class="page-link" >...</div></li>)
               for (let i = tmpAmountOfPages - 7; i <= tmpAmountOfPages; i++){
                 if (i === currentPage){
-                  tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${i}`}  class="page-link active" onClick={() => handleChangePage(i)}>{i}</Link></li>)
+                  tmpPagination.push(<li class="page-item"><Link to={`${process.env.REACT_APP_CLIENT_URL}/store/${i}`}  class="page-link active" onClick={() => handleChangePage(i)}>{i}</Link></li>)
                 } else {
-                  tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${i}`}  class="page-link" onClick={() => handleChangePage(i)}>{i}</Link></li>)
+                  tmpPagination.push(<li class="page-item"><Link to={`${process.env.REACT_APP_CLIENT_URL}/store/${i}`}  class="page-link" onClick={() => handleChangePage(i)}>{i}</Link></li>)
                 }
               }
             } else {
-              tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/1`} class="page-link" onClick={() => handleChangePage(1)}>1</Link></li>)
+              tmpPagination.push(<li class="page-item"><Link to={`${process.env.REACT_APP_CLIENT_URL}/store/1`} class="page-link" onClick={() => handleChangePage(1)}>1</Link></li>)
               tmpPagination.push(<li class="page-item"><div class="page-link" >...</div></li>)
               for (let i = currentPage - 3; i <= currentPage + 3; i++){
                 if (i === currentPage){
-                  tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${i}`}  class="page-link active" onClick={() => handleChangePage(i)}>{i}</Link></li>)
+                  tmpPagination.push(<li class="page-item"><Link to={`${process.env.REACT_APP_CLIENT_URL}/store/${i}`}  class="page-link active" onClick={() => handleChangePage(i)}>{i}</Link></li>)
                 } else {
-                  tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${i}`} class="page-link" onClick={() => handleChangePage(i)}>{i}</Link></li>)
+                  tmpPagination.push(<li class="page-item"><Link to={`${process.env.REACT_APP_CLIENT_URL}/store/${i}`} class="page-link" onClick={() => handleChangePage(i)}>{i}</Link></li>)
                 }
               }
               tmpPagination.push(<li class="page-item"><div class="page-link" >...</div></li>)
-              tmpPagination.push(<li class="page-item"><Link to={`http://localhost:3000/${tmpAmountOfPages}`} class="page-link" onClick={() => handleChangePage(tmpAmountOfPages)}>{tmpAmountOfPages}</Link></li>)
+              tmpPagination.push(<li class="page-item"><Link to={`${process.env.REACT_APP_CLIENT_URL}/store/${tmpAmountOfPages}`} class="page-link" onClick={() => handleChangePage(tmpAmountOfPages)}>{tmpAmountOfPages}</Link></li>)
             }
           }
 
@@ -142,8 +142,7 @@ const Product = ({filter, minPriceInput, maxPriceInput}) => {
         setAmountOfPages(tmpAmountOfPages)
         
         setFetchData(mainDataResponse.data.productData)
-        console.log(mainDataResponse.data.productData)
-        console.log("BRAND", mainDataResponse.data.brandsData)
+
 
         mapBrands()
 
@@ -157,7 +156,6 @@ const Product = ({filter, minPriceInput, maxPriceInput}) => {
               mapBrand[mainDataResponse.data.brandsData[i].brand] = 1
             }
           }
-          console.log("QQ", mapBrand)
 
           setBrands(structuredClone(mapBrand))
         }
@@ -211,9 +209,9 @@ const Product = ({filter, minPriceInput, maxPriceInput}) => {
         </div>
 
         <ul class="pagination" style={{margin: "auto"}}>
-          {currentPage > 1 && <li class="page-item"><Link to={`http://localhost:3000/${currentPage-1}`} class="page-link" href="#" onClick={handlePreviusPage}>Previus</Link></li>}
+          {currentPage > 1 && <li class="page-item"><Link to={`${process.env.REACT_APP_CLIENT_URL}/store/${currentPage-1}`} class="page-link" href="#" onClick={handlePreviusPage}>Previus</Link></li>}
           {pagination}
-          {currentPage < amountOfPages && <li class="page-item"><Link to={`http://localhost:3000/${currentPage + 1}`} class="page-link" href="#" onClick={handleNextPage}>Next</Link></li>}
+          {currentPage < amountOfPages && <li class="page-item"><Link to={`${process.env.REACT_APP_CLIENT_URL}/store/${currentPage + 1}`} class="page-link" href="#" onClick={handleNextPage}>Next</Link></li>}
         </ul>
 
     </div>
