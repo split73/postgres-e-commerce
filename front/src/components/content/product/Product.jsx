@@ -139,8 +139,7 @@ const Product = ({filter, minPriceInput, maxPriceInput}) => {
         
         paginate()
 
-        setAmountOfPages(tmpAmountOfPages)
-        
+        setAmountOfPages(tmpAmountOfPages)  
         setFetchData(mainDataResponse.data.productData)
 
 
@@ -160,16 +159,18 @@ const Product = ({filter, minPriceInput, maxPriceInput}) => {
           setBrands(structuredClone(mapBrand))
         }
 
-
+        let tmpSpecs = []
+        
         for (let j = 0; j < mainDataResponse.data.productData.length; j++){
-          for (let i = 0; i < mainDataResponse.data.productData[0].specs.length; i++){
-            tmpSpecs.push(JSON.parse(mainDataResponse.data.productData[0].specs[i]))
+          console.log(mainDataResponse.data.productData[j].specs.length)
+          for (let i = 0; i < mainDataResponse.data.productData[j].specs.length; i++){
+            tmpSpecs.push(JSON.parse(mainDataResponse.data.productData[j].specs[i]))
           }
           tmpSpecs = []
         }      
       }
         
-      let tmpSpecs = []
+      
       fetch();
       
     }, [order, filter, currentPage, minPriceInput, maxPriceInput])
